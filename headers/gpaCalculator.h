@@ -1,0 +1,4 @@
+#ifndef GPACALCULATOR_H
+#define GPACALCULATOR_H
+
+#endif // GPACALCULATOR_H
