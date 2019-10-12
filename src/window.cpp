@@ -8,6 +8,7 @@
 
 #include "headers/window.h"
 #include "headers/normalCalculator.h"
+#include "headers/gpaCalculator.h"
 
 mainWindow::mainWindow(QWidget *parent) : QMainWindow(parent)
 {
@@ -42,10 +43,12 @@ void mainWindow::onCreate()
 
 void mainWindow::switchToNormal()
 {
-
+    normalCalculator *normCalc = new normalCalculator();
+    setCentralWidget(normCalc);
 }
 
 void mainWindow::switchToGpa()
 {
-
+    gpaCalculator *gpaCalc = new gpaCalculator();
+    setCentralWidget(gpaCalc);
 }
