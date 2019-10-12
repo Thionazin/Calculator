@@ -24,6 +24,7 @@ buttons->addWidget(calculate);
 overall->addWidget(classes);
 overall->addSpacing(20);
 overall->addLayout(buttons);
+overall->addSpacing(20);
 
 setLayout(overall);
 }

@@ -4,11 +4,41 @@
 #pragma once
 
 #include <QWidget>
+#include <QLineEdit>
 
 class normalCalculator : public QWidget {
 
 public:
     normalCalculator(QWidget *parent = 0);
+
+private slots:
+    void zero();
+    void one();
+    void two();
+    void three();
+    void four();
+    void five();
+    void six();
+    void seven();
+    void eight();
+    void nine();
+    void leftPar();
+    void rightPar();
+    void decimal();
+    void scrollUp();
+    void scrollDown();
+    void clear();
+    void exponent();
+    void sign();
+    void backspace();
+    void multiply();
+    void divide();
+    void add();
+    void subtract();
+    void solve();
+
+private:
+    QLineEdit *mainDisplay;
 
 };
 

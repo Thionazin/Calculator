@@ -45,10 +45,12 @@ void mainWindow::switchToNormal()
 {
     normalCalculator *normCalc = new normalCalculator();
     setCentralWidget(normCalc);
+    this->setWindowTitle("Calculator");
 }
 
 void mainWindow::switchToGpa()
 {
     gpaCalculator *gpaCalc = new gpaCalculator();
     setCentralWidget(gpaCalc);
+    this->setWindowTitle("GPA Calculator");
 }
