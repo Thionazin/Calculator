@@ -12,6 +12,7 @@
 
 mainWindow::mainWindow(QWidget *parent) : QMainWindow(parent)
 {
+    //Creates the main window and initializes various objects.
     onCreate();
 
     normalCalculator *normCalc;
@@ -23,24 +24,24 @@ mainWindow::mainWindow(QWidget *parent) : QMainWindow(parent)
 
 void mainWindow::onCreate()
 {
+    //Creates menu bar and adds options to the menu bar.
     QMenu *menu = menuBar()->addMenu(tr("&File"));
-    //QToolBar *fileToolBar = addToolBar(tr("File"));
     QAction *exit = new QAction("&Quit", this);
     exit->setStatusTip("Exit Program");
     menu->addAction(exit);
-    //fileToolBar->addAction(exit);
     menu = menuBar()->addMenu(tr("&Modes"));
     QAction *normal = new QAction("&Basic", this);
     QAction *GPA = new QAction("&GPA", this);
     menu->addAction(normal);
     menu->addAction(GPA);
 
-
+    //connects the menu options so they actually do something.
     connect(exit, &QAction::triggered, qApp, QApplication::quit);
     connect(normal, &QAction::triggered, this, &mainWindow::switchToNormal);
     connect(GPA, &QAction::triggered, this, &mainWindow::switchToGpa);
 }
 
+//switches main widget to the normal calculator.
 void mainWindow::switchToNormal()
 {
     normalCalculator *normCalc = new normalCalculator();
@@ -48,6 +49,7 @@ void mainWindow::switchToNormal()
     this->setWindowTitle("Calculator");
 }
 
+//switches main widget to the gpa calculator.
 void mainWindow::switchToGpa()
 {
     gpaCalculator *gpaCalc = new gpaCalculator();

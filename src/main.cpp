@@ -8,10 +8,12 @@
 
 int main(int argc, char *argv[])
 {
+    //steps to start up the application.
     QApplication app(argc, argv);
 
     mainWindow window;
 
+    //modifies the window
     window.resize(400, 350);
     window.setWindowTitle("Calculator");
     window.show();

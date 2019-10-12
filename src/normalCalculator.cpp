@@ -10,20 +10,22 @@
 normalCalculator::normalCalculator(QWidget *parent) : QWidget(parent)
 {
 
+//creates layouts and sets options for the layout.
 QVBoxLayout *vert = new QVBoxLayout(this);
-//QHBoxLayout *horiz = new QHBoxLayout();
 
+//grid layout for calculator buttons.
 QGridLayout *layout = new QGridLayout();
 layout->setSpacing(0);
 
+//creates the main display for input and output.
 mainDisplay = new QLineEdit(this);
 
 vert->addWidget(mainDisplay);
 
 QList<QString> values({"C","^","+/-","<-","7","8","9","x","4","5","6","/","1","2","3","+","(","0",")","-","Up",".","Down","="});
 
+//section is going to be removed soon.
 int iter = 0;
-
 
 for(int i = 0; i < 6; i++)
 {
@@ -35,7 +37,9 @@ for(int i = 0; i < 6; i++)
         iter++;
     }
 }
+//end of outdated useless section.
 
+//creates the buttons.
 QPushButton *oneButton = new QPushButton("\n \n1\n \n", this);
 QPushButton *clearButton = new QPushButton("\n \nC\n \n", this);
 QPushButton *expoButton = new QPushButton("\n \n^\n \n", this);
@@ -54,7 +58,7 @@ QPushButton *plusButton = new QPushButton("\n \n+\n \n", this);
 QPushButton *zeroButton = new QPushButton("\n \n0\n \n", this);
 QPushButton *subtractButton = new QPushButton("\n \n-\n \n", this);
 
-
+//adds button to the grid layout.
 layout->addWidget(oneButton, 3, 0);
 layout->addWidget(clearButton, 0, 0);
 layout->addWidget(expoButton, 0, 1);
@@ -73,7 +77,7 @@ layout->addWidget(plusButton, 3, 3);
 layout->addWidget(zeroButton, 4, 1);
 layout->addWidget(subtractButton, 4, 3);
 
-
+//connects buttons to the slots so that they actually do something when pressed.
 connect(oneButton, &QPushButton::clicked, this, &normalCalculator::one);
 connect(clearButton, &QPushButton::clicked, this, &normalCalculator::clear);
 connect(expoButton, &QPushButton::clicked, this, &normalCalculator::exponent);
@@ -92,22 +96,26 @@ connect(plusButton, &QPushButton::clicked, this, &normalCalculator::add);
 connect(zeroButton, &QPushButton::clicked, this, &normalCalculator::zero);
 connect(subtractButton, &QPushButton::clicked, this, &normalCalculator::subtract);
 
-
-
+//adds the grid layout to the overall main layout.
 vert->addLayout(layout);
 
+//sets the main layout of the widget to the overall layout.
 setLayout(vert);
 
 }
 
+//slot for the zero button.
 void normalCalculator::zero()
 {
+    //gets the equation and the position of the last character.
     QString equation = mainDisplay->text();
     int lastPos = mainDisplay->text().length() - 1;
+    //If there is nothing in the equation, print only the character.
     if(mainDisplay->text().length() == 0)
     {
         mainDisplay->insert("0");
     }
+    //if the last character is an operation, add a space before. Else add nothing.
     else if(lastPos >= 0)
     {
         if(equation[lastPos] == "*" || equation[lastPos] == "/"  || equation[lastPos] == "+" || equation[lastPos] == "-")
@@ -310,13 +318,16 @@ void normalCalculator::nine()
     }
 }
 
+//clears equation.
 void normalCalculator::clear()
 {
     mainDisplay->setText("");
 }
 
+//adds exponent
 void normalCalculator::exponent()
 {
+    //checks if it is following an actual number. Else do nothing.
     QString equation = mainDisplay->text();
     int lastPos = mainDisplay->text().length() - 1;
     if(lastPos <= -1)
@@ -333,8 +344,10 @@ void normalCalculator::exponent()
     }
 }
 
+//Clears last entered.
 void normalCalculator::backspace()
 {
+    //checks if it is an operation. If not operation, delete one. Otherwise delete two.
     QString equation = mainDisplay->text();
     int secondLastPos = mainDisplay->text().length() - 2;
     if(mainDisplay->text().length() == 1)
@@ -356,6 +369,7 @@ void normalCalculator::backspace()
     }
 }
 
+//Inserts multiplication symbol. If nothing is there, do nothing. Same for the rest.
 void normalCalculator::multiply()
 {
     if(mainDisplay->text().length() == 0)

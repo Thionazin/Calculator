@@ -1,7 +1,10 @@
 TEMPLATE = app
-TARGET = example.pro
 
 QT = core gui
+
+RC_FILE = calculator.rc
+
+TARGET = Calculator
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
