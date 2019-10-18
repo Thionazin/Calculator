@@ -4,6 +4,7 @@
 #include <QLineEdit>
 #include <iostream>
 #include <string.h>
+#include <cmath>
 
 #include "headers/normalCalculator.h"
 
@@ -58,6 +59,7 @@ QPushButton *plusButton = new QPushButton("\n \n+\n \n", this);
 QPushButton *zeroButton = new QPushButton("\n \n0\n \n", this);
 QPushButton *subtractButton = new QPushButton("\n \n-\n \n", this);
 QPushButton *decimalButton = new QPushButton("\n \n.\n \n", this);
+QPushButton *solveButton = new QPushButton("\n \n=\n \n", this);
 
 //adds button to the grid layout.
 layout->addWidget(oneButton, 3, 0);
@@ -78,6 +80,7 @@ layout->addWidget(plusButton, 3, 3);
 layout->addWidget(zeroButton, 4, 1);
 layout->addWidget(subtractButton, 4, 3);
 layout->addWidget(decimalButton, 5, 1);
+layout->addWidget(solveButton, 5, 3);
 
 //connects buttons to the slots so that they actually do something when pressed.
 connect(oneButton, &QPushButton::clicked, this, &normalCalculator::one);
@@ -98,6 +101,7 @@ connect(plusButton, &QPushButton::clicked, this, &normalCalculator::add);
 connect(zeroButton, &QPushButton::clicked, this, &normalCalculator::zero);
 connect(subtractButton, &QPushButton::clicked, this, &normalCalculator::subtract);
 connect(decimalButton, &QPushButton::clicked, this, &normalCalculator::decimal);
+connect(solveButton, &QPushButton::clicked, this, &normalCalculator::solve);
 
 //adds the grid layout to the overall main layout.
 vert->addLayout(layout);
@@ -330,26 +334,11 @@ void normalCalculator::clear()
 //adds exponent
 void normalCalculator::exponent()
 {
-    //checks if it is following an actual number. Else do nothing.
     QString equation = mainDisplay->text();
-    int lastPos = mainDisplay->text().length() - 1;
-    if(lastPos <= -1)
+    if(equation.length() == 0)
     {
         return;
     }
-    if(equation[lastPos] == "+" || equation[lastPos] == "-" || equation[lastPos] == "*" || equation[lastPos] == "/")
-    {
-
-    }
-    else
-    {
-        mainDisplay->insert("^");
-    }
-}
-
-void normalCalculator::decimal()
-{
-    QString equation = mainDisplay->text();
     int lastPos = mainDisplay->text().length() - 1;
     int lastBlank = 0;
     for(int i = 0; i < lastPos; i++)
@@ -359,16 +348,42 @@ void normalCalculator::decimal()
             lastBlank = i;
         }
     }
-    for(int i = lastBlank; i < lastPos; i++)
+    for(int i = lastBlank; i <= lastPos; i++)
+    {
+        if(equation[i] == "^")
+        {
+            return;
+        }
+    }
+    if(equation[lastPos] == "+" || equation[lastPos] == "-" || equation[lastPos] == "*" || equation[lastPos] == "/")
+    {
+        return;
+    }
+    mainDisplay->insert("^");
+}
+
+void normalCalculator::decimal()
+{
+    QString equation = mainDisplay->text();
+    if(equation.length() == 0)
+    {
+        return;
+    }
+    int lastPos = mainDisplay->text().length() - 1;
+    int lastBlank = 0;
+    for(int i = 0; i < lastPos; i++)
+    {
+        if(equation[i] == " ")
+        {
+            lastBlank = i;
+        }
+    }
+    for(int i = lastBlank; i <= lastPos; i++)
     {
         if(equation[i] == ".")
         {
             return;
         }
-    }
-    if(equation[lastPos] == ".")
-    {
-        return;
     }
     if(equation[lastPos] == "+" || equation[lastPos] == "-" || equation[lastPos] == "*" || equation[lastPos] == "/")
     {
@@ -474,4 +489,106 @@ void normalCalculator::subtract()
         }
     }
     mainDisplay->insert(" -");
+}
+
+void normalCalculator::solve()
+{
+    QList<QString> splitEquation;
+    QString equation = mainDisplay->text();
+    int lastPos = mainDisplay->text().length();
+    QString temp = "";
+    QStringList stepOne = equation.split(" ");
+    for(int i = 0; i < stepOne.length(); i++)
+    {
+        splitEquation.insert(i, stepOne[i]);
+    }
+    if(equation[lastPos-1] == "+" || equation[lastPos-1] == "-" || equation[lastPos-1] == "*" || equation[lastPos-1] == "/")
+    {
+        return;
+    }
+    //Does exponents first. The pemdas method I'm doing is quick and cheap.
+
+    for(int i = 0; i < splitEquation.length(); i++)
+    {
+        if(splitEquation[i].contains("^"))
+        {
+            QString temp = splitEquation[i];
+            QStringRef sideOne(&temp, 0, temp.indexOf("^"));
+            QStringRef sideTwo(&temp, temp.indexOf("^")+1, temp.length()-temp.indexOf("^")-1);
+            double result = pow(sideOne.toDouble(), sideTwo.toDouble());
+            splitEquation[i] = QString::number(result);
+        }
+    }
+
+    //multiplication and division
+
+    for(int i = 0; i < splitEquation.length();)
+    {
+        if(splitEquation[i] == "*")
+        {
+            double numOne = splitEquation[i-1].toDouble();
+            double numTwo = splitEquation[i+1].toDouble();
+            double result = numOne * numTwo;
+            splitEquation[i] = QString::number(result);
+            splitEquation.removeAt(i+1);
+            splitEquation.removeAt(i-1);
+            i--;
+        }
+        else if(splitEquation[i] == "/")
+        {
+            double numOne = splitEquation[i-1].toDouble();
+            double numTwo = splitEquation[i+1].toDouble();
+            double result = numOne / numTwo;
+            splitEquation[i] = QString::number(result);
+            splitEquation.removeAt(i+1);
+            splitEquation.removeAt(i-1);
+            i--;
+        }
+        else
+        {
+            i++;
+        }
+    }
+
+    //add and subtract
+
+    for(int i = 0; i < splitEquation.length();)
+    {
+        if(splitEquation[i] == "+")
+        {
+            double numOne = splitEquation[i-1].toDouble();
+            double numTwo = splitEquation[i+1].toDouble();
+            double result = numOne + numTwo;
+            splitEquation[i] = QString::number(result);
+            splitEquation.removeAt(i+1);
+            splitEquation.removeAt(i-1);
+            i--;
+        }
+        else if(splitEquation[i] == "-")
+        {
+            double numOne = splitEquation[i-1].toDouble();
+            double numTwo = splitEquation[i+1].toDouble();
+            double result = numOne - numTwo;
+            splitEquation[i] = QString::number(result);
+            splitEquation.removeAt(i+1);
+            splitEquation.removeAt(i-1);
+            i--;
+        }
+        else
+        {
+            i++;
+        }
+    }
+
+    QString endResult;
+
+    //turns results into a single string
+    for(int i = 0; i < splitEquation.length(); i++)
+    {
+        endResult += splitEquation[i];
+    }
+
+
+    //debug thingy
+    mainDisplay->setText(endResult);
 }
