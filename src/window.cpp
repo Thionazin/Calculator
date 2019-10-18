@@ -26,6 +26,8 @@ void mainWindow::onCreate()
 {
     //Creates menu bar and adds options to the menu bar.
     QMenu *menu = menuBar()->addMenu(tr("&File"));
+    QAction *saveState = new QAction("Save Window");
+    menu->addAction(saveState);
     QAction *exit = new QAction("&Quit", this);
     exit->setStatusTip("Exit Program");
     menu->addAction(exit);
@@ -34,6 +36,7 @@ void mainWindow::onCreate()
     QAction *GPA = new QAction("&GPA", this);
     menu->addAction(normal);
     menu->addAction(GPA);
+    menu = menuBar()->addMenu(tr("&Options"));
 
     //connects the menu options so they actually do something.
     connect(exit, &QAction::triggered, qApp, QApplication::quit);
@@ -46,7 +49,7 @@ void mainWindow::switchToNormal()
 {
     normalCalculator *normCalc = new normalCalculator();
     setCentralWidget(normCalc);
-    this->setWindowTitle("Calculator");
+    this->setWindowTitle("Calculator | Version 1.0.0 Alpha");
 }
 
 //switches main widget to the gpa calculator.
@@ -54,5 +57,5 @@ void mainWindow::switchToGpa()
 {
     gpaCalculator *gpaCalc = new gpaCalculator();
     setCentralWidget(gpaCalc);
-    this->setWindowTitle("GPA Calculator");
+    this->setWindowTitle("GPA Calculator | Version 0.1.0 Useless Edition");
 }

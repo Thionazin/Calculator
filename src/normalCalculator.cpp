@@ -17,7 +17,6 @@ QVBoxLayout *vert = new QVBoxLayout(this);
 //grid layout for calculator buttons.
 QGridLayout *layout = new QGridLayout();
 layout->setSpacing(0);
-
 //creates the main display for input and output.
 mainDisplay = new QLineEdit(this);
 
@@ -33,7 +32,6 @@ for(int i = 0; i < 6; i++)
     for(int j = 0; j < 4; j++)
     {
         QPushButton *but = new QPushButton("\n \n" + values[iter] + "\n \n", this);
-        //but->setFixedSize(40, 40);
         layout->addWidget(but, i, j);
         iter++;
     }
@@ -103,6 +101,9 @@ connect(subtractButton, &QPushButton::clicked, this, &normalCalculator::subtract
 connect(decimalButton, &QPushButton::clicked, this, &normalCalculator::decimal);
 connect(solveButton, &QPushButton::clicked, this, &normalCalculator::solve);
 
+//style sheet stuff
+mainDisplay->setStyleSheet("border-radius: 4px; padding: 15px;");
+
 //adds the grid layout to the overall main layout.
 vert->addLayout(layout);
 
@@ -111,7 +112,7 @@ setLayout(vert);
 
 }
 
-//slot for the zero button.
+//slot for the zero button. The buttons I have are mostly copy pastes of each other.
 void normalCalculator::zero()
 {
     //gets the equation and the position of the last character.
@@ -502,6 +503,7 @@ void normalCalculator::solve()
     {
         splitEquation.insert(i, stepOne[i]);
     }
+    //exits if the input cannot be solved.
     if(equation[lastPos-1] == "+" || equation[lastPos-1] == "-" || equation[lastPos-1] == "*" || equation[lastPos-1] == "/")
     {
         return;
