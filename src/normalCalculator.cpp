@@ -57,6 +57,7 @@ QPushButton *threeButton = new QPushButton("\n \n3\n \n", this);
 QPushButton *plusButton = new QPushButton("\n \n+\n \n", this);
 QPushButton *zeroButton = new QPushButton("\n \n0\n \n", this);
 QPushButton *subtractButton = new QPushButton("\n \n-\n \n", this);
+QPushButton *decimalButton = new QPushButton("\n \n.\n \n", this);
 
 //adds button to the grid layout.
 layout->addWidget(oneButton, 3, 0);
@@ -76,6 +77,7 @@ layout->addWidget(threeButton, 3, 2);
 layout->addWidget(plusButton, 3, 3);
 layout->addWidget(zeroButton, 4, 1);
 layout->addWidget(subtractButton, 4, 3);
+layout->addWidget(decimalButton, 5, 1);
 
 //connects buttons to the slots so that they actually do something when pressed.
 connect(oneButton, &QPushButton::clicked, this, &normalCalculator::one);
@@ -95,6 +97,7 @@ connect(threeButton, &QPushButton::clicked, this, &normalCalculator::three);
 connect(plusButton, &QPushButton::clicked, this, &normalCalculator::add);
 connect(zeroButton, &QPushButton::clicked, this, &normalCalculator::zero);
 connect(subtractButton, &QPushButton::clicked, this, &normalCalculator::subtract);
+connect(decimalButton, &QPushButton::clicked, this, &normalCalculator::decimal);
 
 //adds the grid layout to the overall main layout.
 vert->addLayout(layout);
@@ -344,6 +347,37 @@ void normalCalculator::exponent()
     }
 }
 
+void normalCalculator::decimal()
+{
+    QString equation = mainDisplay->text();
+    int lastPos = mainDisplay->text().length() - 1;
+    int lastBlank = 0;
+    for(int i = 0; i < lastPos; i++)
+    {
+        if(equation[i] == " ")
+        {
+            lastBlank = i;
+        }
+    }
+    for(int i = lastBlank; i < lastPos; i++)
+    {
+        if(equation[i] == ".")
+        {
+            return;
+        }
+    }
+    if(equation[lastPos] == ".")
+    {
+        return;
+    }
+    if(equation[lastPos] == "+" || equation[lastPos] == "-" || equation[lastPos] == "*" || equation[lastPos] == "/")
+    {
+        mainDisplay->insert(" .");
+        return;
+    }
+    mainDisplay->insert(".");
+}
+
 //Clears last entered.
 void normalCalculator::backspace()
 {
@@ -372,36 +406,72 @@ void normalCalculator::backspace()
 //Inserts multiplication symbol. If nothing is there, do nothing. Same for the rest.
 void normalCalculator::multiply()
 {
+    QString equation = mainDisplay->text();
     if(mainDisplay->text().length() == 0)
     {
         return;
+    }
+    if(mainDisplay->text().length() >= 2)
+    {
+        int secondLastPos = mainDisplay->text().length() - 1;
+        if(equation[secondLastPos] == "+" || equation[secondLastPos] == "-" || equation[secondLastPos] == "*" || equation[secondLastPos] == "/")
+        {
+            return;
+        }
     }
     mainDisplay->insert(" *");
 }
 
 void normalCalculator::divide()
 {
+    QString equation = mainDisplay->text();
     if(mainDisplay->text().length() == 0)
     {
         return;
+    }
+    if(mainDisplay->text().length() >= 2)
+    {
+        int secondLastPos = mainDisplay->text().length() - 1;
+        if(equation[secondLastPos] == "+" || equation[secondLastPos] == "-" || equation[secondLastPos] == "*" || equation[secondLastPos] == "/")
+        {
+            return;
+        }
     }
     mainDisplay->insert(" /");
 }
 
 void normalCalculator::add()
 {
+    QString equation = mainDisplay->text();
     if(mainDisplay->text().length() == 0)
     {
         return;
+    }
+    if(mainDisplay->text().length() >= 2)
+    {
+        int secondLastPos = mainDisplay->text().length() - 1;
+        if(equation[secondLastPos] == "+" || equation[secondLastPos] == "-" || equation[secondLastPos] == "*" || equation[secondLastPos] == "/")
+        {
+            return;
+        }
     }
     mainDisplay->insert(" +");
 }
 
 void normalCalculator::subtract()
 {
+    QString equation = mainDisplay->text();
     if(mainDisplay->text().length() == 0)
     {
         return;
+    }
+    if(mainDisplay->text().length() >= 2)
+    {
+        int secondLastPos = mainDisplay->text().length() - 1;
+        if(equation[secondLastPos] == "+" || equation[secondLastPos] == "-" || equation[secondLastPos] == "*" || equation[secondLastPos] == "/")
+        {
+            return;
+        }
     }
     mainDisplay->insert(" -");
 }
