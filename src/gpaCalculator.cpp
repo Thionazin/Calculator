@@ -66,6 +66,8 @@ overall->addSpacing(20);
 //connects the buttons so they actually do something
 connect(addClass, &QPushButton::clicked, this, &gpaCalculator::addClassButton);
 connect(removeClass, &QPushButton::clicked, this, &gpaCalculator::deleteClassButton);
+connect(calculate, &QPushButton::clicked, this, &gpaCalculator::calcGpaButton);
+
 
 //sets layout to the overall layout.
 setLayout(overall);
@@ -83,4 +85,20 @@ void gpaCalculator::addClassButton()
 void gpaCalculator::deleteClassButton()
 {
     qDeleteAll(classes->selectedItems());
+}
+
+void gpaCalculator::calcGpaButton()
+{
+    double totalgrade = 0.0;
+    for(int i = 0; i < classes->count(); i++)
+    {
+        QString classInfo = classes->item(i)->text();
+        QStringList stepOne = classInfo.split(" | ");
+        double grade = stepOne[1].toDouble();
+        double multi = stepOne[2].toDouble();
+        double weighted = grade * multi;
+        totalgrade += weighted;
+    }
+    double finalGpa = totalgrade / classes->count();
+    gpa->setText(QString::number(finalGpa));
 }
