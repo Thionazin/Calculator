@@ -22,6 +22,7 @@ private slots:
 
 private:
     void onCreate();
+    void setMainWidget(QWidget *newWidget);
     QLabel *output;
 
 };

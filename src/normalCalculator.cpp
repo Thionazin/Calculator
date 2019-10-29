@@ -430,7 +430,7 @@ void normalCalculator::multiply()
     if(mainDisplay->text().length() >= 2)
     {
         int secondLastPos = mainDisplay->text().length() - 1;
-        if(equation[secondLastPos] == "+" || equation[secondLastPos] == "-" || equation[secondLastPos] == "*" || equation[secondLastPos] == "/")
+        if(equation[secondLastPos] == "+" || equation[secondLastPos] == "-" || equation[secondLastPos] == "*" || equation[secondLastPos] == "/" || equation[secondLastPos] == "^")
         {
             return;
         }
@@ -448,7 +448,7 @@ void normalCalculator::divide()
     if(mainDisplay->text().length() >= 2)
     {
         int secondLastPos = mainDisplay->text().length() - 1;
-        if(equation[secondLastPos] == "+" || equation[secondLastPos] == "-" || equation[secondLastPos] == "*" || equation[secondLastPos] == "/")
+        if(equation[secondLastPos] == "+" || equation[secondLastPos] == "-" || equation[secondLastPos] == "*" || equation[secondLastPos] == "/" || equation[secondLastPos] == "^")
         {
             return;
         }
@@ -466,7 +466,7 @@ void normalCalculator::add()
     if(mainDisplay->text().length() >= 2)
     {
         int secondLastPos = mainDisplay->text().length() - 1;
-        if(equation[secondLastPos] == "+" || equation[secondLastPos] == "-" || equation[secondLastPos] == "*" || equation[secondLastPos] == "/")
+        if(equation[secondLastPos] == "+" || equation[secondLastPos] == "-" || equation[secondLastPos] == "*" || equation[secondLastPos] == "/" || equation[secondLastPos] == "^")
         {
             return;
         }
@@ -484,7 +484,7 @@ void normalCalculator::subtract()
     if(mainDisplay->text().length() >= 2)
     {
         int secondLastPos = mainDisplay->text().length() - 1;
-        if(equation[secondLastPos] == "+" || equation[secondLastPos] == "-" || equation[secondLastPos] == "*" || equation[secondLastPos] == "/")
+        if(equation[secondLastPos] == "+" || equation[secondLastPos] == "-" || equation[secondLastPos] == "*" || equation[secondLastPos] == "/" || equation[secondLastPos] == "^")
         {
             return;
         }

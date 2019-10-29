@@ -82,6 +82,13 @@ void gpaCalculator::addClassButton()
     classes->addItem(clsName + " | " + clsGrade + " | " + clsMulti);
 }
 
+/* Old stuff
+QString clsName = className->text();
+QString clsGrade = classGrade->text();
+QString clsMulti = classMulti->text();
+classes->addItem(clsName + " | " + clsGrade + " | " + clsMulti);
+*/
+
 void gpaCalculator::deleteClassButton()
 {
     qDeleteAll(classes->selectedItems());
@@ -101,4 +108,9 @@ void gpaCalculator::calcGpaButton()
     }
     double finalGpa = totalgrade / classes->count();
     gpa->setText(QString::number(finalGpa));
+}
+
+void gpaCalculator::addClass(QString className, QString grade, QString multiplier)
+{
+    classes->addItem(className + " | " + grade + " | " + multiplier);
 }

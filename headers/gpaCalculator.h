@@ -25,6 +25,7 @@ private:
     QListWidget *classes;
     QLabel *gpa;
     QLabel *description;
+    void addClass(QString name, QString grade, QString multiplier);
 
 };
 

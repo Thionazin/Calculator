@@ -28,6 +28,8 @@ void mainWindow::onCreate()
     QMenu *menu = menuBar()->addMenu(tr("&File"));
     QAction *saveState = new QAction("Save Window");
     menu->addAction(saveState);
+    QAction *loadState = new QAction("Load Window");
+    menu->addAction(loadState);
     QAction *exit = new QAction("&Quit", this);
     exit->setStatusTip("Exit Program");
     menu->addAction(exit);
