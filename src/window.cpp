@@ -51,7 +51,7 @@ void mainWindow::switchToNormal()
 {
     normalCalculator *normCalc = new normalCalculator();
     setCentralWidget(normCalc);
-    this->setWindowTitle("Calculator | Version 1.0.0 Alpha");
+    this->setWindowTitle("Calculator | Version 1.0.2 Alpha");
 }
 
 //switches main widget to the gpa calculator.
@@ -59,5 +59,5 @@ void mainWindow::switchToGpa()
 {
     gpaCalculator *gpaCalc = new gpaCalculator();
     setCentralWidget(gpaCalc);
-    this->setWindowTitle("GPA Calculator | Version 0.1.0 Useless Edition");
+    this->setWindowTitle("GPA Calculator | Version 1.0.1 Alpha");
 }

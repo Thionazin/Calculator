@@ -13,7 +13,7 @@ class mainWindow : public QMainWindow
 Q_OBJECT
 
 public:
-    mainWindow(QWidget *parent = 0);
+    mainWindow(QWidget *parent = nullptr);
 
 private slots:
     void switchToNormal();

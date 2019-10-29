@@ -10,7 +10,6 @@ greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
 SOURCES += \
     src/addClassWindow.cpp \
-    src/editClassWindow.cpp \
     src/gpaCalculator.cpp \
     src/main.cpp \
     src/normalCalculator.cpp \
@@ -18,7 +17,6 @@ SOURCES += \
 
 HEADERS += \
     headers/addClassWindow.h \
-    headers/editClassWindow.h \
     headers/gpaCalculator.h \
     headers/normalCalculator.h \
     headers/window.h

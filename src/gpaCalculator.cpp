@@ -5,6 +5,7 @@
 #include <QListWidget>
 
 #include "headers/gpaCalculator.h"
+#include <headers/addClassWindow.h>
 
 gpaCalculator::gpaCalculator(QWidget *parent) : QWidget(parent)
 {
@@ -32,25 +33,33 @@ classes = new QListWidget(this);
 
 
 //Line Edits
+//Useless, outdated
+/*
 className = new QLineEdit(this);
 classGrade = new QLineEdit(this);
 classMulti = new QLineEdit(this);
 className->setPlaceholderText("Class Name");
 classGrade->setPlaceholderText("Class Grade");
 classMulti->setPlaceholderText("Class Multiplier");
+*/
 
 //Buttons for application.
 QPushButton *addClass = new QPushButton("Add Class", this);
+QPushButton *editClass = new QPushButton("Edit Class", this);
 QPushButton *removeClass = new QPushButton("Remove Class", this);
 QPushButton *calculate = new QPushButton("Calculate GPA", this);
 buttons->addWidget(addClass);
+buttons->addWidget(editClass);
 buttons->addWidget(removeClass);
 buttons->addWidget(calculate);
 
 //add lineedits to layout
+//outdated, useless
+/*
 textFields->addWidget(className);
 textFields->addWidget(classGrade);
 textFields->addWidget(classMulti);
+*/
 
 //adds buttons to layout.
 menu->addLayout(display);
@@ -65,6 +74,7 @@ overall->addSpacing(20);
 
 //connects the buttons so they actually do something
 connect(addClass, &QPushButton::clicked, this, &gpaCalculator::addClassButton);
+connect(editClass, &QPushButton::clicked, this, &gpaCalculator::editClassButton);
 connect(removeClass, &QPushButton::clicked, this, &gpaCalculator::deleteClassButton);
 connect(calculate, &QPushButton::clicked, this, &gpaCalculator::calcGpaButton);
 
@@ -76,10 +86,62 @@ setLayout(overall);
 //takes the input of the three text fields and adds an element to the big list.
 void gpaCalculator::addClassButton()
 {
-    QString clsName = className->text();
-    QString clsGrade = classGrade->text();
-    QString clsMulti = classMulti->text();
-    classes->addItem(clsName + " | " + clsGrade + " | " + clsMulti);
+    QString clsName;
+    QString clsGrade;
+    QString clsMulti;
+
+    addClassWindow newWindow;
+
+    if(newWindow.exec())
+    {
+        clsName = newWindow.name();
+        clsGrade = newWindow.grade();
+        clsMulti = newWindow.multiplier();
+    }
+
+    if(newWindow.getCancelled())
+    {
+
+    }
+    else
+    {
+        classes->addItem(clsName + " | " + clsGrade + " | " + clsMulti);
+    }
+
+}
+
+void gpaCalculator::editClassButton()
+{
+    if(classes->selectedItems().count() >= 1)
+    {
+        QString clsName;
+        QString clsGrade;
+        QString clsMulti;
+
+        auto selectedItems = classes->selectedItems();
+        QString classInput = selectedItems[0]->text();
+        QStringList splitInput = classInput.split(" | ");
+
+        addClassWindow editWindow;
+        editWindow.editClass(splitInput[0], splitInput[1], splitInput[2]);
+
+        if(editWindow.exec())
+        {
+            clsName = editWindow.name();
+            clsGrade = editWindow.grade();
+            clsMulti = editWindow.multiplier();
+        }
+
+        if(editWindow.getCancelled())
+        {
+
+        }
+        else
+        {
+            classes->selectedItems()[0]->setText(clsName + " | " + clsGrade + " | " + clsMulti);
+        }
+
+    }
 }
 
 /* Old stuff

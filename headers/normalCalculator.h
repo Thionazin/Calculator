@@ -9,7 +9,7 @@
 class normalCalculator : public QWidget {
 
 public:
-    normalCalculator(QWidget *parent = 0);
+    normalCalculator(QWidget *parent = nullptr);
 
 private slots:
     void zero();

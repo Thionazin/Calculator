@@ -11,11 +11,12 @@
 class gpaCalculator : public QWidget {
 
 public:
-    gpaCalculator(QWidget *parent = 0);
+    gpaCalculator(QWidget *parent = nullptr);
 
 private slots:
     void deleteClassButton();
     void addClassButton();
+    void editClassButton();
     void calcGpaButton();
 
 private:
