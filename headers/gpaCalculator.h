@@ -12,6 +12,7 @@ class gpaCalculator : public QWidget {
 
 public:
     gpaCalculator(QWidget *parent = nullptr);
+    void writeToFile();
 
 private slots:
     void deleteClassButton();

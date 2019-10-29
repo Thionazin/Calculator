@@ -6,26 +6,29 @@
 
 #include "headers/gpaCalculator.h"
 #include <headers/addClassWindow.h>
+#include <headers/gpaSolver.h>
 
 gpaCalculator::gpaCalculator(QWidget *parent) : QWidget(parent)
 {
 //creates the layouts for this mode.
-QHBoxLayout *overall = new QHBoxLayout(this);
-QVBoxLayout *menu = new QVBoxLayout();
-QVBoxLayout *textFields = new QVBoxLayout();
-QVBoxLayout *buttons = new QVBoxLayout();
+QVBoxLayout *overall = new QVBoxLayout(this);
+QHBoxLayout *buttons = new QHBoxLayout();
+QHBoxLayout *menu = new QHBoxLayout();
 QVBoxLayout *display = new QVBoxLayout();
 
 
 //stuff for the display fields
+//obsolete
+/*
 description = new QLabel("Your GPA is:");
 gpa = new QLabel("0");
 description->setSizePolicy(QSizePolicy::Ignored, QSizePolicy::Fixed);
 gpa->setSizePolicy(QSizePolicy::Ignored, QSizePolicy::Fixed);
 description->setAlignment(Qt::AlignCenter);
 gpa->setAlignment(Qt::AlignCenter);
-display->addWidget(description);
-display->addWidget(gpa);
+//display->addWidget(description);
+//display->addWidget(gpa);
+*/
 
 
 //listwidget for listing classes you have added.
@@ -53,6 +56,8 @@ buttons->addWidget(editClass);
 buttons->addWidget(removeClass);
 buttons->addWidget(calculate);
 
+buttons->setSpacing(0);
+
 //add lineedits to layout
 //outdated, useless
 /*
@@ -62,9 +67,8 @@ textFields->addWidget(classMulti);
 */
 
 //adds buttons to layout.
-menu->addLayout(display);
-menu->addLayout(textFields);
 menu->addLayout(buttons);
+menu->addLayout(display);
 
 //adds all layouts and widgets to overall main widget.
 overall->addWidget(classes);
@@ -169,7 +173,15 @@ void gpaCalculator::calcGpaButton()
         totalgrade += weighted;
     }
     double finalGpa = totalgrade / classes->count();
-    gpa->setText(QString::number(finalGpa));
+
+    gpaSolver resultScreen;
+
+    resultScreen.setDisplay(finalGpa);
+
+    resultScreen.resize(400, 200);
+
+    resultScreen.exec();
+
 }
 
 void gpaCalculator::addClass(QString className, QString grade, QString multiplier)

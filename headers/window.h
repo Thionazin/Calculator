@@ -18,6 +18,8 @@ public:
 private slots:
     void switchToNormal();
     void switchToGpa();
+    void saveFile();
+    void loadFile();
 
 
 private:

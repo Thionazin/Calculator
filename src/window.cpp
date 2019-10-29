@@ -5,6 +5,7 @@
 #include <QMenu>
 #include <QMenuBar>
 #include <QToolBar>
+#include <QFileDialog>
 
 #include "headers/window.h"
 #include "headers/normalCalculator.h"
@@ -30,6 +31,7 @@ void mainWindow::onCreate()
     menu->addAction(saveState);
     QAction *loadState = new QAction("Load Window");
     menu->addAction(loadState);
+    menu->addSeparator();
     QAction *exit = new QAction("&Quit", this);
     exit->setStatusTip("Exit Program");
     menu->addAction(exit);
@@ -44,6 +46,7 @@ void mainWindow::onCreate()
     connect(exit, &QAction::triggered, qApp, QApplication::quit);
     connect(normal, &QAction::triggered, this, &mainWindow::switchToNormal);
     connect(GPA, &QAction::triggered, this, &mainWindow::switchToGpa);
+    connect(saveState, &QAction::triggered, this, &mainWindow::saveFile);
 }
 
 //switches main widget to the normal calculator.
@@ -60,4 +63,18 @@ void mainWindow::switchToGpa()
     gpaCalculator *gpaCalc = new gpaCalculator();
     setCentralWidget(gpaCalc);
     this->setWindowTitle("GPA Calculator | Version 1.0.1 Alpha");
+}
+
+void mainWindow::saveFile()
+{
+    QString fileName = QFileDialog::getSaveFileName(this,
+        tr("Save Current Calculations"), "",
+        tr("Calculator Save (*.calcsa);;All Files (*)"));
+
+
+}
+
+void mainWindow::loadFile()
+{
+
 }
