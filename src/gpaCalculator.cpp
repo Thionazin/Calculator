@@ -3,6 +3,10 @@
 #include <QApplication>
 #include <QLineEdit>
 #include <QListWidget>
+#include <QMainWindow>
+#include <QFileDialog>
+#include <QAction>
+#include <QMessageBox>
 
 #include "headers/gpaCalculator.h"
 #include <headers/addClassWindow.h>
@@ -10,6 +14,7 @@
 
 gpaCalculator::gpaCalculator(QWidget *parent) : QWidget(parent)
 {
+
 //creates the layouts for this mode.
 QVBoxLayout *overall = new QVBoxLayout(this);
 QHBoxLayout *buttons = new QHBoxLayout();
@@ -47,14 +52,36 @@ classMulti->setPlaceholderText("Class Multiplier");
 */
 
 //Buttons for application.
-QPushButton *addClass = new QPushButton("Add Class", this);
-QPushButton *editClass = new QPushButton("Edit Class", this);
-QPushButton *removeClass = new QPushButton("Remove Class", this);
-QPushButton *calculate = new QPushButton("Calculate GPA", this);
+QPushButton *saveClasses = new QPushButton(this);
+QPushButton *loadClasses = new QPushButton(this);
+QPushButton *addClass = new QPushButton(this);
+QPushButton *editClass = new QPushButton(this);
+QPushButton *removeClass = new QPushButton(this);
+QPushButton *calculate = new QPushButton(this);
+buttons->addWidget(saveClasses);
+buttons->addWidget(loadClasses);
 buttons->addWidget(addClass);
 buttons->addWidget(editClass);
 buttons->addWidget(removeClass);
 buttons->addWidget(calculate);
+const QIcon saveIcon = QIcon::fromTheme("save-classes", QIcon(":/images/save.png"));
+saveClasses->setIcon(saveIcon);
+saveClasses->setToolTip("Save classes");
+const QIcon loadIcon = QIcon::fromTheme("load-classes", QIcon(":/images/open.png"));
+loadClasses->setIcon(loadIcon);
+loadClasses->setToolTip("Load classes");
+const QIcon plusIcon = QIcon::fromTheme("new-class", QIcon(":/images/plus.png"));
+addClass->setIcon(plusIcon);
+addClass->setToolTip("Add a class");
+const QIcon editIcon = QIcon::fromTheme("edit-class", QIcon(":/images/edit.png"));
+editClass->setIcon(editIcon);
+editClass->setToolTip("Edit a class");
+const QIcon minusIcon = QIcon::fromTheme("remove-class", QIcon(":/images/minus.png"));
+removeClass->setIcon(minusIcon);
+removeClass->setToolTip("Remove a class");
+const QIcon calculateIcon = QIcon::fromTheme("calculate-class", QIcon(":/images/calculate.png"));
+calculate->setIcon(calculateIcon);
+calculate->setToolTip("Calculate GPA");
 
 buttons->setSpacing(0);
 
@@ -71,12 +98,13 @@ menu->addLayout(buttons);
 menu->addLayout(display);
 
 //adds all layouts and widgets to overall main widget.
-overall->addWidget(classes);
-overall->addSpacing(20);
 overall->addLayout(menu);
-overall->addSpacing(20);
+overall->addWidget(classes);
+overall->addSpacing(0);
 
 //connects the buttons so they actually do something
+connect(saveClasses, &QPushButton::clicked, this, &gpaCalculator::saveClasses);
+connect(loadClasses, &QPushButton::clicked, this, &gpaCalculator::loadClasses);
 connect(addClass, &QPushButton::clicked, this, &gpaCalculator::addClassButton);
 connect(editClass, &QPushButton::clicked, this, &gpaCalculator::editClassButton);
 connect(removeClass, &QPushButton::clicked, this, &gpaCalculator::deleteClassButton);
@@ -187,4 +215,40 @@ void gpaCalculator::calcGpaButton()
 void gpaCalculator::addClass(QString className, QString grade, QString multiplier)
 {
     classes->addItem(className + " | " + grade + " | " + multiplier);
+}
+
+void gpaCalculator::saveClasses()
+{
+    QString fileName = QFileDialog::getSaveFileName(this,
+            tr("Save Grades"), "",
+            tr("GPA (*.gpa);;All Files (*)"));
+
+    if (fileName.isEmpty())
+            return;
+        else {
+            QFile file(fileName);
+            if (!file.open(QIODevice::WriteOnly)) {
+                QMessageBox::information(this, tr("Unable to open file"),
+                    file.errorString());
+                return;
+            }
+
+            QDataStream out(&file);
+                    QString allEntries = "";
+                    for(int i = 0; i < classes->count(); i++)
+                    {
+                        QString allEntries = classes->item(i)->text();
+                    }
+                    out << allEntries;
+                }
+
+}
+
+void gpaCalculator::loadClasses()
+{
+    QString fileName = QFileDialog::getOpenFileName(this,
+            tr("Load Grades"), "",
+            tr("GPA (*.gpa);;All Files (*)"));
+
+
 }

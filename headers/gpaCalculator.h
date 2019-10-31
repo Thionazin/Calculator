@@ -7,6 +7,8 @@
 #include <QLineEdit>
 #include <QListWidget>
 #include <QLabel>
+#include <QItemSelection>
+#include <QTabWidget>
 
 class gpaCalculator : public QWidget {
 
@@ -15,6 +17,8 @@ public:
     void writeToFile();
 
 private slots:
+    void saveClasses();
+    void loadClasses();
     void deleteClassButton();
     void addClassButton();
     void editClassButton();

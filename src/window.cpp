@@ -46,7 +46,6 @@ void mainWindow::onCreate()
     connect(exit, &QAction::triggered, qApp, QApplication::quit);
     connect(normal, &QAction::triggered, this, &mainWindow::switchToNormal);
     connect(GPA, &QAction::triggered, this, &mainWindow::switchToGpa);
-    connect(saveState, &QAction::triggered, this, &mainWindow::saveFile);
 }
 
 //switches main widget to the normal calculator.
@@ -62,19 +61,5 @@ void mainWindow::switchToGpa()
 {
     gpaCalculator *gpaCalc = new gpaCalculator();
     setCentralWidget(gpaCalc);
-    this->setWindowTitle("GPA Calculator | Version 1.0.1 Alpha");
-}
-
-void mainWindow::saveFile()
-{
-    QString fileName = QFileDialog::getSaveFileName(this,
-        tr("Save Current Calculations"), "",
-        tr("Calculator Save (*.calcsa);;All Files (*)"));
-
-
-}
-
-void mainWindow::loadFile()
-{
-
+    this->setWindowTitle("GPA Calculator | Version 1.0.2 Alpha");
 }
