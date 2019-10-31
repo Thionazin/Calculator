@@ -7,6 +7,7 @@
 #include <QFileDialog>
 #include <QAction>
 #include <QMessageBox>
+#include <QTextStream>
 
 #include "headers/gpaCalculator.h"
 #include <headers/addClassWindow.h>
@@ -142,6 +143,7 @@ void gpaCalculator::addClassButton()
 
 }
 
+//slot for the class editor button
 void gpaCalculator::editClassButton()
 {
     if(classes->selectedItems().count() >= 1)
@@ -183,14 +185,17 @@ QString clsMulti = classMulti->text();
 classes->addItem(clsName + " | " + clsGrade + " | " + clsMulti);
 */
 
+//slot for delete class button
 void gpaCalculator::deleteClassButton()
 {
     qDeleteAll(classes->selectedItems());
 }
 
+//slot for the calc gpa button
 void gpaCalculator::calcGpaButton()
 {
     double totalgrade = 0.0;
+    //takes each individual entry and splits it into parts. Weighs and adds grade to total.
     for(int i = 0; i < classes->count(); i++)
     {
         QString classInfo = classes->item(i)->text();
@@ -202,53 +207,76 @@ void gpaCalculator::calcGpaButton()
     }
     double finalGpa = totalgrade / classes->count();
 
+    //Creates the window that displays the gpa result.
     gpaSolver resultScreen;
-
     resultScreen.setDisplay(finalGpa);
-
     resultScreen.resize(400, 200);
-
     resultScreen.exec();
-
 }
 
+//slot for the button that adds a class
 void gpaCalculator::addClass(QString className, QString grade, QString multiplier)
 {
     classes->addItem(className + " | " + grade + " | " + multiplier);
 }
 
+//slot for saving a class to a .gpa file.
 void gpaCalculator::saveClasses()
 {
+    //Gets the file based on name you input in the pop up window
     QString fileName = QFileDialog::getSaveFileName(this,
             tr("Save Grades"), "",
             tr("GPA (*.gpa);;All Files (*)"));
-
-    if (fileName.isEmpty())
-            return;
-        else {
-            QFile file(fileName);
-            if (!file.open(QIODevice::WriteOnly)) {
-                QMessageBox::information(this, tr("Unable to open file"),
-                    file.errorString());
-                return;
-            }
-
-            QDataStream out(&file);
-                    QString allEntries = "";
-                    for(int i = 0; i < classes->count(); i++)
-                    {
-                        QString allEntries = classes->item(i)->text();
-                    }
-                    out << allEntries;
-                }
-
+    //Gets the file with the given name.
+    QFile file(fileName);
+    //If unable to open, error and returns.
+    if (!file.open(QIODevice::WriteOnly)) {
+        QMessageBox::information(this, tr("Unable to open file"), file.errorString());
+        return;
+    }
+    QTextStream out(&file);
+    QString output;
+    //adds each individual entry to a string seperated by #.
+    for(int i = 0; i < classes->count() - 1; i++)
+    {
+        output = output + classes->item(i)->text() + "#";
+    }
+    output = output + classes->item(classes->count()-1)->text();
+    out << output;
 }
 
+//slot for the loading of classes.
 void gpaCalculator::loadClasses()
 {
+    //gets the file based on name
     QString fileName = QFileDialog::getOpenFileName(this,
             tr("Load Grades"), "",
             tr("GPA (*.gpa);;All Files (*)"));
+    QFile file(fileName);
+    //If fails, error
+    if (!file.open(QIODevice::ReadOnly)) {
+        QMessageBox::information(this, tr("No file was loaded."),
+            file.errorString());
+        return;
+    }
+
+    //gets the input and splits it into a list.
+    QString input;
+    QTextStream in(&file);
+    input = in.readAll();
+    QStringList inputParser = input.split("#");
+
+    //clears the current set of grades
+    int times = classes->count();
+    for(int i = 0; i < times; i++)
+    {
+        classes->takeItem(0);
+    }
 
 
+    //loops through each element in list and adds it to the list widget
+    for(int i = 0; i < inputParser.length(); i++)
+    {
+        classes->addItem(inputParser[i]);
+    }
 }
