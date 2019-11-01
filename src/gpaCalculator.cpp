@@ -12,15 +12,16 @@
 #include "headers/gpaCalculator.h"
 #include <headers/addClassWindow.h>
 #include <headers/gpaSolver.h>
+#include "headers/numButton.h"
 
 gpaCalculator::gpaCalculator(QWidget *parent) : QWidget(parent)
 {
 
+setStyleSheet("numButton { background-color:#7dc383; border-color:none; border:none; font: bold large 'Ariel'; font-size:10px; padding: 10px; } numButton:hover { background-color:#d0e1f9; } numButton:pressed { background-color: #2a4d69; color: white; } QListWidgetItem:pressed { color: black; }");
 //creates the layouts for this mode.
 QVBoxLayout *overall = new QVBoxLayout(this);
 QHBoxLayout *buttons = new QHBoxLayout();
-QHBoxLayout *menu = new QHBoxLayout();
-QVBoxLayout *display = new QVBoxLayout();
+//QVBoxLayout *display = new QVBoxLayout();
 
 
 //stuff for the display fields
@@ -40,7 +41,7 @@ gpa->setAlignment(Qt::AlignCenter);
 //listwidget for listing classes you have added.
 classes = new QListWidget(this);
 
-
+classes->setStyleSheet("background-color:#fff1bc; border:none;");
 //Line Edits
 //Useless, outdated
 /*
@@ -53,12 +54,12 @@ classMulti->setPlaceholderText("Class Multiplier");
 */
 
 //Buttons for application.
-QPushButton *saveClasses = new QPushButton(this);
-QPushButton *loadClasses = new QPushButton(this);
-QPushButton *addClass = new QPushButton(this);
-QPushButton *editClass = new QPushButton(this);
-QPushButton *removeClass = new QPushButton(this);
-QPushButton *calculate = new QPushButton(this);
+numButton *saveClasses = new numButton();
+numButton *loadClasses = new numButton();
+numButton *addClass = new numButton();
+numButton *editClass = new numButton();
+numButton *removeClass = new numButton();
+numButton *calculate = new numButton();
 buttons->addWidget(saveClasses);
 buttons->addWidget(loadClasses);
 buttons->addWidget(addClass);
@@ -95,13 +96,12 @@ textFields->addWidget(classMulti);
 */
 
 //adds buttons to layout.
-menu->addLayout(buttons);
-menu->addLayout(display);
+//menu->addLayout(buttons);
 
 //adds all layouts and widgets to overall main widget.
-overall->addLayout(menu);
+overall->addLayout(buttons);
 overall->addWidget(classes);
-overall->addSpacing(0);
+overall->setSpacing(0);
 
 //connects the buttons so they actually do something
 connect(saveClasses, &QPushButton::clicked, this, &gpaCalculator::saveClasses);

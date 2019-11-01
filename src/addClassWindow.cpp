@@ -81,5 +81,4 @@ bool addClassWindow::getCancelled()
 {
     return cancelled;
 }
-
 //cancelled is used to check whether or not input changes will be saved.

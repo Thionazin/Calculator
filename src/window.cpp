@@ -18,6 +18,10 @@ mainWindow::mainWindow(QWidget *parent) : QMainWindow(parent)
 
     normalCalculator *normCalc;
     normCalc = new normalCalculator();
+    QPalette pal = palette();
+    pal.setColor(QPalette::Background, "#699c78");
+    normCalc->setAutoFillBackground(true);
+    normCalc->setPalette(pal);
 
     setCentralWidget(normCalc);
 
@@ -52,6 +56,10 @@ void mainWindow::onCreate()
 void mainWindow::switchToNormal()
 {
     normalCalculator *normCalc = new normalCalculator();
+    QPalette pal = palette();
+    pal.setColor(QPalette::Background, "#699c78");
+    normCalc->setAutoFillBackground(true);
+    normCalc->setPalette(pal);
     setCentralWidget(normCalc);
     this->setWindowTitle("Calculator | Version 1.0.2 Alpha");
 }
@@ -60,6 +68,10 @@ void mainWindow::switchToNormal()
 void mainWindow::switchToGpa()
 {
     gpaCalculator *gpaCalc = new gpaCalculator();
+    QPalette pal = palette();
+    pal.setColor(QPalette::Background, "#699c78");
+    gpaCalc->setAutoFillBackground(true);
+    gpaCalc->setPalette(pal);
     setCentralWidget(gpaCalc);
     this->setWindowTitle("GPA Calculator | Version 1.0.2 Alpha");
 }
