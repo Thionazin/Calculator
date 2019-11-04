@@ -3,7 +3,7 @@ A calculator made with Qt. It's still a work in progress. Right now it can calcu
 
 # To-do List
 - Make the rest of the calculators.
-- Customize the ui so it doesn't look like it was made twenty years ago.
+- ~~Customize the ui so it doesn't look like it was made twenty years ago.~~
 - Online capabilities (if possible)
 
 # Planned features
