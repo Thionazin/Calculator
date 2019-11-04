@@ -15,7 +15,7 @@ int main(int argc, char *argv[])
 
     //modifies the window
     window.resize(400, 350);
-    window.setWindowTitle("Calculator | Version 1.0.2 Alpha");
+    window.setWindowTitle("Calculator | Version 1.0.3 Alpha");
     window.show();
     window.setWindowIcon(QIcon(":/images/redeclipse.png"));
 

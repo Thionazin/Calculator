@@ -123,16 +123,20 @@ void gpaCalculator::addClassButton()
     QString clsGrade;
     QString clsMulti;
 
-    addClassWindow newWindow;
+    addClassWindow *newWindow = new addClassWindow();
+    QPalette pal = palette();
+    pal.setColor(QPalette::Background, "#699c78");
+    newWindow->setAutoFillBackground(true);
+    newWindow->setPalette(pal);
 
-    if(newWindow.exec())
+    if(newWindow->exec())
     {
-        clsName = newWindow.name();
-        clsGrade = newWindow.grade();
-        clsMulti = newWindow.multiplier();
+        clsName = newWindow->name();
+        clsGrade = newWindow->grade();
+        clsMulti = newWindow->multiplier();
     }
 
-    if(newWindow.getCancelled())
+    if(newWindow->getCancelled())
     {
 
     }

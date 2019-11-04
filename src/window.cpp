@@ -61,7 +61,7 @@ void mainWindow::switchToNormal()
     normCalc->setAutoFillBackground(true);
     normCalc->setPalette(pal);
     setCentralWidget(normCalc);
-    this->setWindowTitle("Calculator | Version 1.0.2 Alpha");
+    this->setWindowTitle("Calculator | Version 1.0.3 Alpha");
 }
 
 //switches main widget to the gpa calculator.
@@ -73,5 +73,5 @@ void mainWindow::switchToGpa()
     gpaCalc->setAutoFillBackground(true);
     gpaCalc->setPalette(pal);
     setCentralWidget(gpaCalc);
-    this->setWindowTitle("GPA Calculator | Version 1.0.2 Alpha");
+    this->setWindowTitle("GPA Calculator | Version 1.0.3 Alpha");
 }

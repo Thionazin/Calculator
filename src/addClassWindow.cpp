@@ -1,20 +1,26 @@
 #include <QtWidgets>
 
 #include <headers/addClassWindow.h>
+#include "headers/numButton.h"
 
 
 addClassWindow::addClassWindow(QWidget *parent) : QDialog(parent), nameText(new QLineEdit), gradeText(new QLineEdit), multiText(new QLineEdit)
 {
+    setStyleSheet("numButton { background-color:#7dc383; border-color:none; border:none; font: bold large 'Ariel'; font-size:10px; padding: 10px; } numButton:hover { background-color:#d0e1f9; } numButton:pressed { background-color: #2a4d69; color: white; } QListWidgetItem:pressed { color: black; }");
 //placeholder text for the input fields
 nameText->setPlaceholderText("Class Name");
 gradeText->setPlaceholderText("Class Grades");
 multiText->setPlaceholderText("Class Multiplier");
+nameText->setStyleSheet("background-color:#fff1bc; font: 'Museo Sans'; font-size: 12px; padding:2px; border:none;");
+gradeText->setStyleSheet("background-color:#fff1bc; font: 'Museo Sans'; font-size: 12px; padding:2px; border:none;");
+multiText->setStyleSheet("background-color:#fff1bc; font: 'Museo Sans'; font-size: 12px; padding:2px; border:none;");
+
 
 cancelled = false;
 
 //creates the buttons on the screen
-auto addClassButton = new QPushButton();
-auto cancelButton = new QPushButton();
+auto addClassButton = new numButton();
+auto cancelButton = new numButton();
 addClassButton->setText("Save Changes");
 cancelButton->setText("Cancel");
 
