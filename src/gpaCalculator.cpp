@@ -40,6 +40,8 @@ gpa->setAlignment(Qt::AlignCenter);
 
 //listwidget for listing classes you have added.
 classes = new QListWidget(this);
+classes->setDragDropMode(QAbstractItemView::InternalMove);
+classes->setSelectionMode(QAbstractItemView::ExtendedSelection);
 
 classes->setStyleSheet("background-color:#fff1bc; border:none;");
 //Line Edits
@@ -150,7 +152,7 @@ void gpaCalculator::addClassButton()
 //slot for the class editor button
 void gpaCalculator::editClassButton()
 {
-    if(classes->selectedItems().count() >= 1)
+    if(classes->selectedItems().count() == 1)
     {
         QString clsName;
         QString clsGrade;
@@ -240,12 +242,11 @@ void gpaCalculator::saveClasses()
     }
     QTextStream out(&file);
     QString output;
-    //adds each individual entry to a string seperated by #.
-    for(int i = 0; i < classes->count() - 1; i++)
+    //adds each individual entry to a string
+    for(int i = 0; i < classes->count(); i++)
     {
-        output = output + classes->item(i)->text() + "#";
+        output = output + classes->item(i)->text() + "\n";
     }
-    output = output + classes->item(classes->count()-1)->text();
     out << output;
 }
 
@@ -264,11 +265,9 @@ void gpaCalculator::loadClasses()
         return;
     }
 
-    //gets the input and splits it into a list.
+    //gets the input
     QString input;
     QTextStream in(&file);
-    input = in.readAll();
-    QStringList inputParser = input.split("#");
 
     //clears the current set of grades
     int times = classes->count();
@@ -279,8 +278,8 @@ void gpaCalculator::loadClasses()
 
 
     //loops through each element in list and adds it to the list widget
-    for(int i = 0; i < inputParser.length(); i++)
+    while(!in.atEnd())
     {
-        classes->addItem(inputParser[i]);
+        classes->addItem(in.readLine());
     }
 }
